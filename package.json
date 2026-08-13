@@ -1,0 +1,14 @@
+{
+  "name": "hashline",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A four-page visual guide to how blocks connect in a blockchain. The site has no build step; this file exists only for the dev scripts below.",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "contrast": "node tools/contrast-check.js",
+    "check": "npm test && npm run contrast",
+    "serve": "python3 -m http.server 5501"
+  },
+  "keywords": ["blockchain", "sha-256", "hash", "proof-of-work", "web3", "education"],
+  "license": "MIT"
+}

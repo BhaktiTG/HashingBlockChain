@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hashline — how blocks connect in a blockchain</title>
+<meta name="description" content="A blockchain is a chain because every block carries a fingerprint of the one before it. Edit a block here and watch every block after it break." />
+<meta name="theme-color" content="#faf7f2" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23faf7f2'/%3E%3Crect x='4' y='13' width='6' height='6' rx='1.5' fill='%234338ca'/%3E%3Crect x='13' y='13' width='6' height='6' rx='1.5' fill='%234338ca' opacity='.66'/%3E%3Crect x='22' y='13' width='6' height='6' rx='1.5' fill='%234338ca' opacity='.36'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/hashline.css" />
+<script src="assets/js/core.js"></script>
+<script src="assets/js/ui.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ================= masthead (identical on all four pages) ================= -->
+<header class="masthead">
+  <div class="masthead__in">
+    <button class="burger" id="burger" type="button"
+            aria-expanded="false" aria-controls="side" aria-label="Open navigation">
+      <span class="burger__bars" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+
+    <a class="wordmark" href="index.html">
+      <span class="wordmark__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="wordmark__word">Hashline</span>
+    </a>
+
+    <button class="wchip" id="wchip" type="button">Connect wallet</button>
+
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.6M12 19.4V22M2 12h2.6M19.4 12H22M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9"/></svg>
+    </button>
+  </div>
+  <div class="wpop" id="wpop" hidden></div>
+</header>
+
+<div class="scrim" id="scrim" hidden></div>
+
+<aside class="side" id="side" aria-label="Site navigation">
+  <a class="side__brand" href="index.html">
+    <span class="wordmark__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+    Hashline
+  </a>
+  <p class="side__tag">A visual guide to how blocks connect</p>
+
+  <nav class="dnav" aria-label="Pages">
+    <span class="dnav__pill" aria-hidden="true"></span>
+      <a href="index.html" aria-current="page"><span class="dnav__n">01</span><span><span class="dnav__t">Home</span><span class="dnav__d">The link, and how one edit breaks it</span></span></a>
+      <a href="concepts.html"><span class="dnav__n">02</span><span><span class="dnav__t">Concepts</span><span class="dnav__d">Four comparisons worth telling apart</span></span></a>
+      <a href="prices.html"><span class="dnav__n">03</span><span><span class="dnav__t">Live Prices</span><span class="dnav__d">What the chains are worth today</span></span></a>
+      <a href="simulator.html"><span class="dnav__n">04</span><span><span class="dnav__t">Block Simulator</span><span class="dnav__d">Proof of work, by hand</span></span></a>
+  </nav>
+
+  <div data-toc-wrap>
+    <p class="side__label">On this page</p>
+    <nav class="toc" id="toc" aria-label="Sections on this page"></nav>
+  </div>
+
+  <div class="side__foot">
+    Every hash here is computed in your browser.<br />Nothing is uploaded.
+  </div>
+</aside>
+
+<main id="main">
+
+  <!-- ============================ hero ============================ -->
+  <section class="band band--tight">
+    <div class="col">
+      <p class="note" style="margin-bottom:18px;">A visual guide · blocks, hashes and the link between them</p>
+      <h1>A chain is not a row of blocks.<br />It’s a row of <em style="font-style:normal;color:var(--hash)">fingerprints</em>.</h1>
+      <p class="lead" style="margin-top:22px;">
+        Every block carries a copy of the previous block’s hash. That single detail is what makes
+        the history tamper-evident — and you can prove it to yourself in about ten seconds.
+        <strong>Edit the data in the first block below</strong> and watch what happens to the two after it.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== the live chain (the whole thesis) ==================== -->
+  <section class="band band--tight" style="padding-top:8px;">
+    <div class="col bleed--full">
+      <div class="strip" id="heroChain" aria-label="Three linked blocks. Editing one breaks the ones after it."></div>
+
+      <div class="col bleed" style="padding-inline:0;">
+        <div class="callout" id="heroVerdict" role="status" aria-live="polite">
+          <span class="callout__k">Chain status</span>
+          <span id="heroVerdictText">Building the chain…</span>
+        </div>
+        <p class="note" id="heroEngine"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== anatomy ==================== -->
+  <section class="band band--tint">
+    <div class="col">
+      <div class="chapter rise">
+        <span class="chapter__num">Chapter 01 — anatomy</span>
+        <h2>What is actually inside a block</h2>
+        <p class="lead">
+          Strip away the jargon and a block is four fields. Three of them are ordinary. The fourth
+          is the one that does all the work.
+        </p>
+      </div>
+    </div>
+
+    <div class="col bleed">
+      <div class="grid grid--2 rise">
+        <div class="card">
+          <span class="card__num" style="color:var(--data)">01</span>
+          <h3>Data</h3>
+          <p>Whatever the block is recording — payments, votes, a document hash. On this site it’s a
+          one-line transaction so you can type into it and see the effect.</p>
+        </div>
+        <div class="card">
+          <span class="card__num" style="color:var(--muted)">02</span>
+          <h3>Nonce</h3>
+          <p>A number with no meaning of its own. Its only job is to be changed over and over until
+          the block’s hash comes out in an acceptable shape. That searching is “mining”.</p>
+        </div>
+        <div class="card">
+          <span class="card__num" style="color:var(--hash)">03</span>
+          <h3>Previous hash</h3>
+          <p><strong>The link.</strong> A copy of the hash of the block before this one. Not a pointer or an
+          ID that could be quietly re-aimed — a fingerprint of that block’s exact contents.</p>
+        </div>
+        <div class="card">
+          <span class="card__num" style="color:var(--linked)">04</span>
+          <h3>This block’s hash</h3>
+          <p>SHA-256 of all three fields above, combined. Because the previous hash is one of the
+          inputs, this value depends on the entire history behind it.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col" style="margin-top:32px;">
+      <div class="callout rise">
+        <span class="callout__k">The commitment</span>
+        <p>Each block on this site hashes exactly this string, and the simulator prints it under every
+        block so you can see it change:</p>
+        <p class="mono" style="color:var(--hash);word-break:break-all;margin-top:10px;">index=2|data=Grace pays Linus 1 ETH|prev=a3f9…|nonce=0</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== why it cascades ==================== -->
+  <section class="band">
+    <div class="col">
+      <div class="chapter rise">
+        <span class="chapter__num">Chapter 02 — the cascade</span>
+        <h2>Why one edit breaks everything after it</h2>
+      </div>
+
+      <div class="rise">
+        <p>
+          A hash function has a property called the <strong>avalanche effect</strong>. Change one character
+          of the input and the output doesn’t shift slightly — it becomes a completely unrelated
+          64-character string. There is no partial credit and no near-miss.
+        </p>
+        <p>
+          So picture someone quietly editing block 1 to pay themselves more. Block 1’s data changed,
+          therefore block 1’s hash changed. But block 2 is still storing the <em>old</em> hash in its
+          “previous hash” field. The two no longer agree, and anyone checking can see it instantly.
+        </p>
+        <p>
+          Worse for the forger: fixing block 2 to store the new hash changes block 2’s own hash, which
+          breaks block 3. And so on, to the end of the chain. Rewriting one line of history means
+          redoing every block that came after it — faster than everyone else is adding new ones.
+        </p>
+      </div>
+
+      <div class="callout callout--broken rise">
+        <span class="callout__k">Try it</span>
+        <p>Scroll back up, change a single character in block 1, and watch blocks 2 and 3 turn red
+        without being touched. Nobody validated anything. The arithmetic simply stopped agreeing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== three consequences ==================== -->
+  <section class="band band--tint">
+    <div class="col">
+      <div class="chapter rise">
+        <span class="chapter__num">Chapter 03 — consequences</span>
+        <h2>Three things this buys you</h2>
+      </div>
+    </div>
+
+    <div class="col bleed">
+      <div class="grid grid--3 rise">
+        <div class="card">
+          <h3>Tamper-evident, not tamper-proof</h3>
+          <p>Nothing stops someone editing their own copy. The point is that everyone else can tell
+          immediately, because their copy’s hashes won’t match. Detection, not prevention.</p>
+        </div>
+        <div class="card">
+          <h3>History gets more expensive to change over time</h3>
+          <p>Rewriting the most recent block costs one block of work. Rewriting a block from a year
+          ago costs a year of work. Depth is security.</p>
+        </div>
+        <div class="card">
+          <h3>No trusted referee required</h3>
+          <p>You don’t have to trust the person handing you the chain. You can recompute every hash
+          yourself and check. That is the actual innovation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== a real block, from the reader's own wallet ==================== -->
+  <section class="band band--tint" id="real">
+    <div class="col">
+      <div class="chapter rise">
+        <span class="chapter__num">Chapter 04 — the same thing, for real</span>
+        <h2>Now look at a block worth billions</h2>
+        <p class="lead">
+          Everything above is a model running in your browser. Use <strong>Connect wallet</strong> in the top bar and this site will pull the <strong>newest real block</strong> from whichever
+          network your wallet is on, and draw it in exactly the same layout as the ones you have
+          been editing.
+        </p>
+        <p>
+          Look at where the fields land. What Ethereum calls <span class="mono">parentHash</span>
+          sits in the same slot as the <span class="mono">prev</span> field on the cards above —
+          because it is the same idea. That block is holding the fingerprint of the block before it,
+          for the same reason yours were. Nothing about the mechanism changes when the stakes do.
+        </p>
+      </div>
+    </div>
+
+    <div class="col bleed">
+      <div class="rise" id="realBlock" style="display:flex;justify-content:center;"></div>
+      <p class="note rise" id="realNote" style="margin-top:16px;text-align:center;"></p>
+
+      <div class="callout rise" style="margin-top:26px;">
+        <span class="callout__k">What this site can and cannot do</span>
+        <p>
+          The connection is <strong>read-only</strong>. This page calls
+          <span class="mono">eth_requestAccounts</span> to ask for an address,
+          <span class="mono">eth_getBalance</span> to read a balance, and
+          <span class="mono">eth_getBlockByNumber</span> to fetch that header. It never requests a
+          signature, never builds a transaction, and cannot see your private key — the maths does
+          not run in that direction. That is the public-versus-private-key distinction from the
+          <a href="concepts.html#c3">Concepts page</a>, working in front of you.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== where next ==================== -->
+  <section class="band">
+    <div class="col">
+      <div class="chapter rise">
+        <span class="chapter__num">Chapter 05 — the rest of the site</span>
+        <h2>Three more pages</h2>
+      </div>
+    </div>
+    <div class="col bleed">
+      <div class="grid grid--3 rise">
+        <a class="card" href="concepts.html" style="text-decoration:none;">
+          <h3 style="color:var(--hash)">Concepts →</h3>
+          <p>Web2 vs Web3, Ethereum vs Bitcoin, public vs private keys, and blockchain vs a normal
+          database — side by side, with what actually follows from each difference.</p>
+        </a>
+        <a class="card" href="prices.html" style="text-decoration:none;">
+          <h3 style="color:var(--hash)">Live Prices →</h3>
+          <p>Real ETH and BTC prices from the CoinGecko API, with 24-hour movement, 7-day trend lines
+          and a currency switch.</p>
+        </a>
+        <a class="card" href="simulator.html" style="text-decoration:none;">
+          <h3 style="color:var(--hash)">Block Simulator →</h3>
+          <p>The same chain, with the training wheels off: real proof-of-work mining, adjustable
+          difficulty, and a nonce you can fight with by hand.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= footer (identical on all four pages) ================= -->
+<footer class="foot">
+  <div class="foot__in">
+    <div class="foot__id">
+      <b>Hashline</b>
+      Built for the Arbitrum Builder Pods assignment · Lampros DAO<br />
+      HTML, CSS and JavaScript — no framework, no build step
+    </div>
+    <div class="foot__links">
+      <a href="index.html">Home</a>
+      <a href="concepts.html">Concepts</a>
+      <a href="prices.html">Live Prices</a>
+      <a href="simulator.html">Block Simulator</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/chain.js"></script>
+<script>
+/* The landing page runs the chain in 'demo' mode: no mining, no difficulty —
+   editing a block is the only interaction, so the only lesson is the link. */
+(function () {
+  var verdict = document.getElementById('heroVerdict');
+  var text = document.getElementById('heroVerdictText');
+  var engine = document.getElementById('heroEngine');
+
+  var chain = window.HLChain.create(document.getElementById('heroChain'), {
+    mode: 'demo',
+    seed: ['Ada pays Grace 3 ETH', 'Grace pays Linus 1 ETH', 'Linus pays Ada 0.5 ETH'],
+    onState: function (s) {
+      var whole = s.broken === -1;
+      verdict.className = 'callout' + (whole ? '' : ' callout--broken');
+      text.textContent = whole
+        ? 'All ' + s.total + ' blocks agree. Each one carries the correct fingerprint of the block before it.'
+        : 'Broken from block #' + (s.broken + 1) + ' onward — ' + s.damage + ' of ' + s.total +
+          ' blocks are now untrusted. Notice that the block you edited still looks perfectly fine ' +
+          'on its own: that is the point. Nothing about it is self-evidently wrong. You can only tell ' +
+          'it was changed because the next block stopped agreeing with it.';
+    }
+  });
+
+  engine.textContent = 'HASHING ENGINE: ' + chain.engine.toUpperCase() +
+    ' · NOTHING LEAVES YOUR BROWSER';
+})();
+</script>
+<script src="assets/js/wallet.js"></script>
+</body>
+</html>

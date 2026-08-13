@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Block Simulator — Hashline</title>
+<meta name="description" content="Mine blocks with real SHA-256 proof of work, then tamper with an early block and watch how much of the chain you just destroyed." />
+<meta name="theme-color" content="#faf7f2" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23faf7f2'/%3E%3Crect x='4' y='13' width='6' height='6' rx='1.5' fill='%234338ca'/%3E%3Crect x='13' y='13' width='6' height='6' rx='1.5' fill='%234338ca' opacity='.66'/%3E%3Crect x='22' y='13' width='6' height='6' rx='1.5' fill='%234338ca' opacity='.36'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/hashline.css" />
+<script src="assets/js/core.js"></script>
+<script src="assets/js/ui.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="masthead__in">
+    <button class="burger" id="burger" type="button"
+            aria-expanded="false" aria-controls="side" aria-label="Open navigation">
+      <span class="burger__bars" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+
+    <a class="wordmark" href="index.html">
+      <span class="wordmark__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="wordmark__word">Hashline</span>
+    </a>
+
+    <button class="wchip" id="wchip" type="button">Connect wallet</button>
+
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.6M12 19.4V22M2 12h2.6M19.4 12H22M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9"/></svg>
+    </button>
+  </div>
+  <div class="wpop" id="wpop" hidden></div>
+</header>
+
+<div class="scrim" id="scrim" hidden></div>
+
+<aside class="side" id="side" aria-label="Site navigation">
+  <a class="side__brand" href="index.html">
+    <span class="wordmark__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+    Hashline
+  </a>
+  <p class="side__tag">A visual guide to how blocks connect</p>
+
+  <nav class="dnav" aria-label="Pages">
+    <span class="dnav__pill" aria-hidden="true"></span>
+      <a href="index.html"><span class="dnav__n">01</span><span><span class="dnav__t">Home</span><span class="dnav__d">The link, and how one edit breaks it</span></span></a>
+      <a href="concepts.html"><span class="dnav__n">02</span><span><span class="dnav__t">Concepts</span><span class="dnav__d">Four comparisons worth telling apart</span></span></a>
+      <a href="prices.html"><span class="dnav__n">03</span><span><span class="dnav__t">Live Prices</span><span class="dnav__d">What the chains are worth today</span></span></a>
+      <a href="simulator.html" aria-current="page"><span class="dnav__n">04</span><span><span class="dnav__t">Block Simulator</span><span class="dnav__d">Proof of work, by hand</span></span></a>
+  </nav>
+
+  <div data-toc-wrap>
+    <p class="side__label">On this page</p>
+    <nav class="toc" id="toc" aria-label="Sections on this page"></nav>
+  </div>
+
+  <div class="side__foot">
+    Every hash here is computed in your browser.<br />Nothing is uploaded.
+  </div>
+</aside>
+
+<main id="main">
+
+  <section class="band band--tight">
+    <div class="col">
+      <p class="note" style="margin-bottom:18px;">Chapter 00 — proof of work</p>
+      <h1>Now do it the hard way</h1>
+      <p class="lead" style="margin-top:20px;">
+        The home page showed the link. This page adds the cost. A block here is only accepted once
+        its hash <em>starts with a run of zeros</em>, and the only way to find such a hash is to keep
+        changing the nonce and trying again. Mine the chain, then break it, and watch how much work
+        your one edit just destroyed.
+      </p>
+    </div>
+  </section>
+
+  <section class="band band--tight" style="padding-top:0;">
+    <div class="col bleed--full">
+
+      <div class="bar rise">
+        <button class="btn" id="mineAll" type="button">Mine whole chain</button>
+        <button class="btn btn--quiet btn--sm" id="tamper" type="button">Tamper with block 1</button>
+        <button class="btn btn--quiet btn--sm" id="addBlk" type="button">+ Add block</button>
+        <button class="btn btn--quiet btn--sm" id="delBlk" type="button">− Remove last</button>
+        <button class="btn btn--quiet btn--sm" id="resetBlk" type="button">Reset</button>
+
+        <label class="bar__status" for="diff" style="margin-left:6px;">Difficulty</label>
+        <select class="input" id="diff" style="width:auto;" aria-label="Leading zeros required">
+          <option value="2" selected>00 — 2 zeros</option>
+          <option value="3">000 — 3 zeros</option>
+          <option value="4">0000 — 4 zeros</option>
+        </select>
+
+        <span class="bar__gap"></span>
+        <span class="bar__status" id="engine"></span>
+      </div>
+
+      <div class="callout" id="verdict" role="status" aria-live="polite">
+        <span class="callout__k">Chain status</span>
+        <span id="verdictText">Nothing mined yet — every block is invalid until its hash meets the target.</span>
+      </div>
+
+      <div class="strip" id="simChain"></div>
+
+      <noscript>
+        <div class="callout callout--broken">The simulator mines and hashes in JavaScript. Enable it to use this page.</div>
+      </noscript>
+    </div>
+  </section>
+
+  <section class="band band--tint">
+    <div class="col">
+      <div class="chapter rise">
+        <span class="chapter__num">Chapter 01 — what just happened</span>
+        <h2>Reading the numbers</h2>
+      </div>
+    </div>
+    <div class="col bleed">
+      <div class="grid grid--2 rise">
+        <div class="card">
+          <h3>Why mining takes tries</h3>
+          <p>A hash is not reversible. You cannot work out which nonce produces a hash starting with
+          two zeros — you can only guess and check. Each extra zero multiplies the expected number of
+          guesses by sixteen, which is why difficulty 4 takes visibly longer than difficulty 2. The
+          counter under each block is the real number of attempts your browser made.</p>
+        </div>
+        <div class="card">
+          <h3>Why tampering is hopeless at scale</h3>
+          <p>Editing block 1 invalidates block 1 <em>and every block after it</em>. To pass the edit off
+          as genuine you would have to redo all of that work, while the honest network keeps adding new
+          blocks ahead of you. On a real chain that race is economically unwinnable, and that is the
+          entire security argument.</p>
+        </div>
+      </div>
+
+      <div class="callout callout--warn rise" style="margin-top:26px;">
+        <span class="callout__k">Where the model stops</span>
+        <p>The SHA-256 here is real — it is the browser&rsquo;s own Web Crypto API. The <em>chain</em> is not:
+        there are no peers, no consensus and no network, only the hashing and linking rules. Ethereum
+        has also moved from proof of work to proof of stake, so the mining on this page is a teaching
+        model of Bitcoin-style security rather than a picture of Ethereum today. What carries over
+        exactly, on every chain, is the hash-linking.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot__in">
+    <div class="foot__id">
+      <b>Hashline</b>
+      Built for the Arbitrum Builder Pods assignment · Lampros DAO<br />
+      HTML, CSS and JavaScript — no framework, no build step
+    </div>
+    <div class="foot__links">
+      <a href="index.html">Home</a>
+      <a href="concepts.html">Concepts</a>
+      <a href="prices.html">Live Prices</a>
+      <a href="simulator.html">Block Simulator</a>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/chain.js"></script>
+<script>
+(function () {
+  var verdict = document.getElementById('verdict');
+  var text = document.getElementById('verdictText');
+  var diff = document.getElementById('diff');
+  var addBtn = document.getElementById('addBlk');
+  var delBtn = document.getElementById('delBlk');
+
+  var chain = window.HLChain.create(document.getElementById('simChain'), {
+    mode: 'full',
+    difficulty: parseInt(diff.value, 10),
+    seed: ['Ada pays Grace 3 ETH', 'Grace pays Linus 1 ETH', 'Linus pays Ada 0.5 ETH'],
+    onState: function (s) {
+      var whole = s.broken === -1;
+      verdict.className = 'callout' + (whole ? '' : ' callout--broken');
+      text.textContent = whole
+        ? 'All ' + s.total + ' blocks mined at difficulty ' + s.difficulty +
+          '. Every hash meets the target and every link is intact.'
+        : 'Broken from block #' + (s.broken + 1) + ' onward — ' + s.damage + ' of ' + s.total +
+          ' blocks would have to be re-mined, in order, to repair this.';
+      addBtn.disabled = !chain.canAdd();
+      delBtn.disabled = !chain.canRemove();
+    },
+    onBusy: function (b) {
+      document.getElementById('mineAll').disabled = b;
+      document.getElementById('tamper').disabled = b;
+      document.getElementById('resetBlk').disabled = b;
+      diff.disabled = b;
+      if (!b) { addBtn.disabled = !chain.canAdd(); delBtn.disabled = !chain.canRemove(); }
+      else { addBtn.disabled = true; delBtn.disabled = true; }
+    }
+  });
+
+  document.getElementById('engine').textContent = 'engine: ' + chain.engine;
+  document.getElementById('mineAll').addEventListener('click', function () { chain.mineAll(); });
+  document.getElementById('tamper').addEventListener('click', function () { chain.tamper(0); });
+  addBtn.addEventListener('click', function () { chain.add(); });
+  delBtn.addEventListener('click', function () { chain.remove(); });
+  document.getElementById('resetBlk').addEventListener('click', function () { chain.reset(); });
+  diff.addEventListener('change', function () { chain.setDifficulty(parseInt(diff.value, 10)); });
+})();
+</script>
+<script src="assets/js/wallet.js"></script>
+</body>
+</html>

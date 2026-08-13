@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Concepts — Hashline</title>
+<meta name="description" content="Web2 vs Web3, Ethereum vs Bitcoin, public key vs private key, and blockchain vs a traditional database, compared side by side." />
+<meta name="theme-color" content="#faf7f2" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23faf7f2'/%3E%3Crect x='4' y='13' width='6' height='6' rx='1.5' fill='%234338ca'/%3E%3Crect x='13' y='13' width='6' height='6' rx='1.5' fill='%234338ca' opacity='.66'/%3E%3Crect x='22' y='13' width='6' height='6' rx='1.5' fill='%234338ca' opacity='.36'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/hashline.css" />
+<script src="assets/js/core.js"></script>
+<script src="assets/js/ui.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="masthead__in">
+    <button class="burger" id="burger" type="button"
+            aria-expanded="false" aria-controls="side" aria-label="Open navigation">
+      <span class="burger__bars" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+
+    <a class="wordmark" href="index.html">
+      <span class="wordmark__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="wordmark__word">Hashline</span>
+    </a>
+
+    <button class="wchip" id="wchip" type="button">Connect wallet</button>
+
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.6M12 19.4V22M2 12h2.6M19.4 12H22M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9"/></svg>
+    </button>
+  </div>
+  <div class="wpop" id="wpop" hidden></div>
+</header>
+
+<div class="scrim" id="scrim" hidden></div>
+
+<aside class="side" id="side" aria-label="Site navigation">
+  <a class="side__brand" href="index.html">
+    <span class="wordmark__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+    Hashline
+  </a>
+  <p class="side__tag">A visual guide to how blocks connect</p>
+
+  <nav class="dnav" aria-label="Pages">
+    <span class="dnav__pill" aria-hidden="true"></span>
+      <a href="index.html"><span class="dnav__n">01</span><span><span class="dnav__t">Home</span><span class="dnav__d">The link, and how one edit breaks it</span></span></a>
+      <a href="concepts.html" aria-current="page"><span class="dnav__n">02</span><span><span class="dnav__t">Concepts</span><span class="dnav__d">Four comparisons worth telling apart</span></span></a>
+      <a href="prices.html"><span class="dnav__n">03</span><span><span class="dnav__t">Live Prices</span><span class="dnav__d">What the chains are worth today</span></span></a>
+      <a href="simulator.html"><span class="dnav__n">04</span><span><span class="dnav__t">Block Simulator</span><span class="dnav__d">Proof of work, by hand</span></span></a>
+  </nav>
+
+  <div data-toc-wrap>
+    <p class="side__label">On this page</p>
+    <nav class="toc" id="toc" aria-label="Sections on this page"></nav>
+  </div>
+
+  <div class="side__foot">
+    Every hash here is computed in your browser.<br />Nothing is uploaded.
+  </div>
+</aside>
+
+<main id="main">
+
+  <section class="band band--tight">
+    <div class="col">
+      <p class="note" style="margin-bottom:18px;">Chapter 00 — four comparisons</p>
+      <h1>Four pairs worth telling apart</h1>
+      <p class="lead" style="margin-top:20px;">
+        None of these is a contest. Each one is a trade — you give something up to get something
+        else. The useful knowledge is knowing <em>which</em> trade, and when it is worth making.
+      </p>
+    </div>
+  </section>
+
+  <section class="band band--tight" style="padding-top:0;">
+    <div class="col bleed">
+      <nav class="jump rise" aria-label="Jump to a comparison">
+        <a href="#c1">01 · Web2 vs Web3</a>
+        <a href="#c2">02 · Ethereum vs Bitcoin</a>
+        <a href="#c3">03 · Public vs private key</a>
+        <a href="#c4">04 · Blockchain vs database</a>
+      </nav>
+<article class="vs rise" id="c1"><div class="vs__head"><h3><span class="vs__n">01</span>Web2 vs Web3</h3><span class="vs__q">who holds the record</span></div><div class="vs__cols"><div class="vs__side vs__side--a"><h4>Web2</h4><ul><li>Your account is a row in a company&rsquo;s database, and the company decides what that row means.</li><li>You sign in with a password the platform can reset, suspend or delete.</li><li>Fast and cheap, because one operator runs the whole stack and answers to nobody.</li><li>The rules can change overnight. An API you built on can close without warning.</li></ul></div><div class="vs__side vs__side--b"><h4>Web3</h4><ul><li>Your balance lives on a ledger that thousands of independent machines hold copies of.</li><li>You sign in with a keypair you hold. Nobody can reset it &mdash; including you.</li><li>Slow and costly, because that same work is repeated everywhere for verification.</li><li>The rules are contract code: public, permanent, and hard to change unilaterally.</li></ul></div></div><p class="vs__then"><b>So what?</b> Web3 buys credible neutrality and pays for it in speed, cost and personal responsibility. Worth it when the thing at stake is ownership. Rarely worth it for a photo feed.</p></article><article class="vs rise" id="c2"><div class="vs__head"><h3><span class="vs__n">02</span>Ethereum vs Bitcoin</h3><span class="vs__q">what the chain is for</span></div><div class="vs__cols"><div class="vs__side vs__side--a"><h4>Bitcoin</h4><ul><li>Built to be sound money: hold value, move value, resist change.</li><li>Deliberately limited scripting &mdash; fewer features means fewer ways to break.</li><li>Proof of work: security is bought with electricity and hardware.</li><li>Hard cap of 21 million coins, with issuance halving on a fixed schedule.</li></ul></div><div class="vs__side vs__side--b"><h4>Ethereum</h4><ul><li>Built to be a programmable settlement layer: run applications, not just payments.</li><li>Turing-complete contracts in the EVM &mdash; lending, exchanges, NFTs, rollups.</li><li>Proof of stake since The Merge: security is bought with staked ETH that can be slashed.</li><li>No hard cap; issuance is low and a share of every fee is burned under EIP-1559.</li></ul></div></div><p class="vs__then"><b>So what?</b> Bitcoin optimises for not changing. Ethereum optimises for what you can build. Both rely on the same hash-linking this site demonstrates &mdash; they differ in what they let you put inside the blocks.</p></article><article class="vs rise" id="c3"><div class="vs__head"><h3><span class="vs__n">03</span>Public key vs private key</h3><span class="vs__q">how ownership is proved</span></div><div class="vs__cols"><div class="vs__side vs__side--a"><h4>Public key</h4><ul><li>Derived from the private key; your address is derived from it in turn.</li><li>Safe to share. It is how people pay you and how anyone identifies you on-chain.</li><li>Used by the network to <em>verify</em> that a signature really came from you.</li><li>Reveals your whole transaction history, because the ledger is public.</li></ul></div><div class="vs__side vs__side--b"><h4>Private key</h4><ul><li>A secret number generated first. Everything else is computed from it.</li><li>Never shared. Whoever holds it owns the funds, and there is no appeal above it.</li><li>Used to <em>sign</em>, proving authorisation without ever exposing the key itself.</li><li>Cannot be recovered if lost. Cannot be revoked if stolen.</li></ul></div></div><p class="vs__then"><b>So what?</b> The maths runs one way only &mdash; public from private, never the reverse. That asymmetry is the entire security model, which is why a seed phrase in a screenshot is the most common way people lose everything.</p></article><article class="vs rise" id="c4"><div class="vs__head"><h3><span class="vs__n">04</span>Blockchain vs traditional database</h3><span class="vs__q">who can rewrite history</span></div><div class="vs__cols"><div class="vs__side vs__side--a"><h4>Traditional database</h4><ul><li>An administrator can UPDATE or DELETE any row, and often nobody outside would know.</li><li>One owner, one source of truth, trusted because of the institution behind it.</li><li>Extremely fast and cheap. Millions of writes per second is unremarkable.</li><li>Optimised for correct <em>current state</em>. History is a backup, not a guarantee.</li></ul></div><div class="vs__side vs__side--b"><h4>Blockchain</h4><ul><li>Append-only. Each block commits to the hash of the last, so edits cascade and show.</li><li>Replicated across many independent nodes that must agree on the same history.</li><li>Slow and expensive on purpose &mdash; the redundancy is the product, not the overhead.</li><li>Optimised for verifiable <em>history</em>. Anyone can re-check every change from genesis.</li></ul></div></div><p class="vs__then"><b>So what?</b> Reach for a blockchain only when someone silently editing the record would cost more than all that redundancy. Prove the difference yourself on the <a href="simulator.html">Block Simulator</a>.</p></article>
+    </div>
+  </section>
+
+  <section class="band band--tint">
+    <div class="col">
+      <div class="chapter rise">
+        <span class="chapter__num">Recap</span>
+        <h2>One line each</h2>
+      </div>
+    </div>
+    <div class="col bleed">
+      <div class="tablewrap rise">
+        <table class="recap">
+          <caption class="sr-only">A one-sentence summary of each of the four comparisons</caption>
+          <thead><tr><th scope="col">Pair</th><th scope="col">The real difference</th><th scope="col">When it matters</th></tr></thead>
+          <tbody>
+            <tr><td>Web2 / Web3</td><td>Whether a company or a keypair decides what your account means.</td><td>Any time ownership is at stake rather than content.</td></tr>
+            <tr><td>Ethereum / Bitcoin</td><td>A programmable settlement layer versus deliberately minimal money.</td><td>Choosing what to build on.</td></tr>
+            <tr><td>Public / private key</td><td>One verifies signatures in public; the other creates them in secret.</td><td>Every wallet and backup decision you will ever make.</td></tr>
+            <tr><td>Blockchain / database</td><td>Append-only history anyone can re-check versus editable state one owner controls.</td><td>When a silent edit would be worse than the extra cost.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note rise" style="margin-top:20px;">NEXT → <a href="simulator.html">PROVE THE LAST ROW YOURSELF</a></p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot__in">
+    <div class="foot__id">
+      <b>Hashline</b>
+      Built for the Arbitrum Builder Pods assignment · Lampros DAO<br />
+      HTML, CSS and JavaScript — no framework, no build step
+    </div>
+    <div class="foot__links">
+      <a href="index.html">Home</a>
+      <a href="concepts.html">Concepts</a>
+      <a href="prices.html">Live Prices</a>
+      <a href="simulator.html">Block Simulator</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/wallet.js"></script>
+</body>
+</html>
